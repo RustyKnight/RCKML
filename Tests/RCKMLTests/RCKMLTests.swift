@@ -268,3 +268,40 @@ extension RCKMLTests {
         }
     }
 }
+
+extension RCKMLTests {
+    func testLookAt() {
+        guard let document = getTestDocument() else {
+            return
+        }
+        guard let placemarksFolder = document.getItemNamed("Placemarks") as? KMLFolder else {
+            XCTFail("Couldn't find \"Placemarks\" folder in document")
+            return
+        }
+
+        guard let placeMarker = placemarksFolder.placemarks.first(where: { $0.name == "Floating placemark" }) else {
+            XCTFail("Couldn't find \"Floating placemark\" place marker in document")
+            return
+        }
+
+        guard let lookAt = placeMarker.lookAt else {
+            XCTFail("Couldn't find \"LookAt\" in place marker")
+            return
+        }
+//        <longitude>-122.0839597145766</longitude>
+//        <latitude>37.42222904525232</latitude>
+//        <altitude>0</altitude>
+//        <heading>-148.4122922628044</heading>
+//        <tilt>40.5575073395506</tilt>
+//        <range>500.6566641072245</range>
+
+        XCTAssertEqual(lookAt.longitude, -122.0839597145766)
+        XCTAssertEqual(lookAt.latitude, 37.42222904525232)
+        XCTAssertEqual(lookAt.heading, -148.4122922628044)
+        XCTAssertEqual(lookAt.tilt, 40.5575073395506)
+        XCTAssertEqual(lookAt.range, 500.6566641072245)
+        XCTAssertEqual(lookAt.altitudeMode, nil)
+
+        print(">> lookAt = \(lookAt)")
+    }
+}

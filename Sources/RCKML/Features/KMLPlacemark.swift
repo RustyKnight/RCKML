@@ -21,17 +21,21 @@ public struct KMLPlacemark {
     public var styleUrl: KMLStyleUrl?
     public var style: KMLStyle?
 
+    public var lookAt: KMLLookAt?
+
     public init(name: String,
                 featureDescription: String? = nil,
                 geometry: KMLGeometry,
                 styleUrl: KMLStyleUrl? = nil,
-                style: KMLStyle? = nil)
+                style: KMLStyle? = nil,
+                lookAt: KMLLookAt? = nil)
     {
         self.name = name
         self.featureDescription = featureDescription
         self.geometry = geometry
         self.styleUrl = styleUrl
         self.style = style
+        self.lookAt = lookAt
     }
 }
 
@@ -63,6 +67,10 @@ extension KMLPlacemark: KmlElement {
             self.style = style
         } else if let styleUrl = xml.optionalKmlChild(ofType: KMLStyleUrl.self) {
             self.styleUrl = styleUrl
+        }
+
+        if let lookAt = xml.optionalKmlChild(ofType: KMLLookAt.self) {
+            self.lookAt = lookAt
         }
     }
 
